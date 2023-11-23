@@ -1,14 +1,17 @@
 import React, { createContext, useEffect, useState } from 'react';
+import { shuffleArray } from '../helpers/helpers';
 
 type Card = {
   id: number;
   isFlipped: boolean;
+  isMatched: boolean;
   color: string;
 };
 
 type GameState = {
   cards: Card[];
   flippedCards: Card[];
+  matchedCards: Card[];
 };
 
 type GameContextType = {
@@ -31,6 +34,7 @@ const colors = [
 const initialState: GameState = {
   cards: [],
   flippedCards: [],
+  matchedCards: [],
 };
 
 export const GameContext = createContext<GameContextType>({
@@ -42,29 +46,43 @@ export const GameContext = createContext<GameContextType>({
 const GameProvider: React.FC<{
   children: React.ReactNode;
 }> = ({ children }) => {
-  const [gameState, setGameState] = useState<GameState>({
-    cards: [],
-    flippedCards: [],
-  });
+  const [gameState, setGameState] = useState<GameState>({ ...initialState });
 
-  const flipCard = (card: Card) => {
-    if (card.isFlipped) {
-      return;
-    }
-
-    card.isFlipped = true;
-
-    const flippedCards = [...gameState.flippedCards, card];
+  const checkForMatches = (gameState: GameState) => {
+    const flippedCards = gameState.flippedCards;
 
     if (flippedCards.length === 2) {
-      console.log(flippedCards);
+      if (flippedCards[0].color === flippedCards[1].color) {
+        flippedCards[0].isMatched = true;
+        flippedCards[1].isMatched = true;
+      }
+      flippedCards[0].isFlipped = false;
+      flippedCards[1].isFlipped = false;
     }
+
+    const matchedCards = gameState.cards.filter(card => card.isMatched);
 
     setGameState({
       ...gameState,
       cards: [...gameState.cards],
-      flippedCards,
+      flippedCards: [],
+      matchedCards,
     });
+  };
+
+  const flipCard = (card: Card) => {
+    card.isFlipped = !card.isFlipped;
+
+    const flippedCards = gameState.cards.filter(card => card.isFlipped);
+    const newGameState = {
+      ...gameState,
+      cards: [...gameState.cards],
+      flippedCards,
+    };
+    setGameState(newGameState);
+    setTimeout(() => {
+      checkForMatches(newGameState);
+    }, 1000);
   };
 
   const resetGame = () => {
@@ -78,25 +96,13 @@ const GameProvider: React.FC<{
     for (let i = 0; i < colors.length; i++) {
       const color = colors[i];
 
-      newCards.push({ id: id++, isFlipped: false, color });
-      newCards.push({ id: id++, isFlipped: false, color });
+      newCards.push({ id: id++, isFlipped: false, color, isMatched: false });
+      newCards.push({ id: id++, isFlipped: false, color, isMatched: false });
     }
 
     const shuffledCards = shuffleArray(newCards);
 
-    setGameState({
-      cards: shuffledCards,
-      flippedCards: [],
-    });
-  };
-
-  const shuffleArray = (array: any[]) => {
-    const newArray = [...array];
-    for (let i = newArray.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
-    }
-    return newArray;
+    setGameState({ ...initialState, cards: shuffledCards });
   };
 
   useEffect(() => {

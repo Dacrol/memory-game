@@ -9,10 +9,13 @@ const BoardContainer = styled.div`
   gap: 10px;
 `;
 
-const Card = styled.div<{ isFlipped: boolean }>`
+const Card = styled.div<{ color: string }>`
   width: 64px;
   height: 96px;
-  background-color: ${props => (props.isFlipped ? props.color : 'gray')};
+  background-color: gray;
+  &.flipped {
+    background-color: ${props => props.color};
+  }
   transition: transform 0.3s ease-in-out;
   cursor: pointer;
 
@@ -34,17 +37,21 @@ const Board: React.FC = () => {
   const cards = gameState.cards;
   return (
     <BoardContainer>
-      {cards.map((card, index) => (
-        <Card
-          key={index}
-          color={card.color}
-          isFlipped={card.isFlipped}
-          className={card.isFlipped ? 'flipped' : ''}
-          onClick={() => {
-            flipCard(card);
-          }}
-        ></Card>
-      ))}
+      {cards.map((card, index) => {
+        const showCard = card.isFlipped || card.isMatched;
+        return (
+          <Card
+            key={index}
+            color={card.color}
+            className={showCard ? 'flipped' : ''}
+            onClick={() => {
+              if (!card.isFlipped && gameState.flippedCards.length < 2) {
+                flipCard(card);
+              }
+            }}
+          ></Card>
+        );
+      })}
     </BoardContainer>
   );
 };
