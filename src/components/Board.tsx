@@ -1,5 +1,5 @@
 import React from 'react';
-import { GameContext } from '../contexts/GameState';
+import { GameContext } from '../contexts/GameContext';
 import styled from 'styled-components';
 
 const BoardContainer = styled.div`

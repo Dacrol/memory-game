@@ -12,6 +12,7 @@ type GameState = {
   cards: Card[];
   flippedCards: Card[];
   matchedCards: Card[];
+  attempts: number;
 };
 
 type GameContextType = {
@@ -35,6 +36,7 @@ const initialState: GameState = {
   cards: [],
   flippedCards: [],
   matchedCards: [],
+  attempts: 0,
 };
 
 export const GameContext = createContext<GameContextType>({
@@ -58,6 +60,7 @@ const GameProvider: React.FC<{
       }
       flippedCards[0].isFlipped = false;
       flippedCards[1].isFlipped = false;
+      gameState.attempts++;
     }
 
     const matchedCards = gameState.cards.filter(card => card.isMatched);
