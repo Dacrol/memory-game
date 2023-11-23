@@ -13,6 +13,7 @@ const Card = styled.div<{ color: string }>`
   width: 64px;
   height: 96px;
   background-color: gray;
+  border: 1px solid white;
   &.flipped {
     background-color: ${props => props.color};
   }
@@ -37,11 +38,11 @@ const Board: React.FC = () => {
   const cards = gameState.cards;
   return (
     <BoardContainer>
-      {cards.map((card, index) => {
+      {cards.map(card => {
         const showCard = card.isFlipped || card.isMatched;
         return (
           <Card
-            key={index}
+            key={card.id}
             color={card.color}
             className={showCard ? 'flipped' : ''}
             onClick={() => {
