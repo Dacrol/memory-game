@@ -45,7 +45,7 @@ const Board: React.FC = () => {
             color={card.color}
             className={showCard ? 'flipped' : ''}
             onClick={() => {
-              if (!card.isFlipped && gameState.flippedCards.length < 2) {
+              if (!card.isFlipped) {
                 flipCard(card);
               }
             }}

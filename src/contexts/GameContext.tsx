@@ -10,7 +10,6 @@ type Card = {
 
 type GameState = {
   cards: Card[];
-  flippedCards: Card[];
   matchedCards: Card[];
   attempts: number;
 };
@@ -34,7 +33,6 @@ const colors = [
 
 const initialState: GameState = {
   cards: [],
-  flippedCards: [],
   matchedCards: [],
   attempts: 0,
 };
@@ -51,7 +49,7 @@ const GameProvider: React.FC<{
   const [gameState, setGameState] = useState<GameState>({ ...initialState });
 
   const checkForMatches = (gameState: GameState) => {
-    const flippedCards = gameState.flippedCards;
+    const flippedCards = gameState.cards.filter(card => card.isFlipped);
 
     if (flippedCards.length === 2) {
       if (flippedCards[0].color === flippedCards[1].color) {
@@ -60,27 +58,28 @@ const GameProvider: React.FC<{
       }
       flippedCards[0].isFlipped = false;
       flippedCards[1].isFlipped = false;
-      gameState.attempts++;
     }
+    const attempts = gameState.attempts + 1;
 
     const matchedCards = gameState.cards.filter(card => card.isMatched);
 
     setGameState({
       ...gameState,
       cards: [...gameState.cards],
-      flippedCards: [],
       matchedCards,
+      attempts,
     });
   };
 
   const flipCard = (card: Card) => {
-    card.isFlipped = !card.isFlipped;
-
     const flippedCards = gameState.cards.filter(card => card.isFlipped);
+    if (flippedCards.length >= 2) {
+      return;
+    }
+    card.isFlipped = !card.isFlipped;
     const newGameState = {
       ...gameState,
       cards: [...gameState.cards],
-      flippedCards,
     };
     setGameState(newGameState);
     setTimeout(() => {
@@ -96,12 +95,10 @@ const GameProvider: React.FC<{
     const newCards: Card[] = [];
     let id = 1;
 
-    for (let i = 0; i < colors.length; i++) {
-      const color = colors[i];
-
+    colors.forEach(color => {
       newCards.push({ id: id++, isFlipped: false, color, isMatched: false });
       newCards.push({ id: id++, isFlipped: false, color, isMatched: false });
-    }
+    });
 
     const shuffledCards = shuffleArray(newCards);
 
