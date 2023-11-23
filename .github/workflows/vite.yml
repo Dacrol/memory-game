@@ -10,10 +10,6 @@ permissions:
   pages: write
   id-token: write
 
-concurrency:
-  group: 'pages'
-  cancel-in-progress: true
-
 jobs:
   test:
     timeout-minutes: 60
@@ -38,6 +34,8 @@ jobs:
         path: playwright-report/
         retention-days: 1
   deploy:
+    needs: test
+    if: '!failure()'
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
