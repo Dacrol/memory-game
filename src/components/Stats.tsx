@@ -13,7 +13,7 @@ const Stats: React.FC = () => {
   const { gameState, resetGame } = useContext(GameContext);
 
   return (
-    <StatsContainer>
+    <StatsContainer id="stats">
       <p>Number of attempts: {gameState.attempts}</p>
       {gameState.cards.length === gameState.matchedCards.length && (
         <>

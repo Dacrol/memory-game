@@ -37,14 +37,18 @@ const Board: React.FC = () => {
   const { gameState, flipCard } = React.useContext(GameContext);
   const cards = gameState.cards;
   return (
-    <BoardContainer>
+    <BoardContainer id="board-container">
       {cards.map(card => {
         const showCard = card.isFlipped || card.isMatched;
         return (
           <Card
             key={card.id}
+            id={`card-${card.id}`}
             color={card.color}
-            className={showCard ? 'flipped' : ''}
+            data-color={card.color}
+            className={`card${showCard ? ' flipped' : ''}${
+              card.isMatched ? ' matched' : ''
+            }`}
             onClick={() => {
               if (!card.isFlipped) {
                 flipCard(card);

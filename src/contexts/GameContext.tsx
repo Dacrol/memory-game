@@ -84,7 +84,7 @@ const GameProvider: React.FC<{
     setGameState(newGameState);
     setTimeout(() => {
       checkForMatches(newGameState);
-    }, 1000);
+    }, 250);
   };
 
   const resetGame = () => {
