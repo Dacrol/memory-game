@@ -31,6 +31,10 @@ const Card = styled.div<{ color: string }>`
     }
     transform: rotateY(180deg);
   }
+  &.matched {
+    opacity: 0.1;
+    transition: opacity 0.3s ease-in-out;
+  }
 `;
 
 const Board: React.FC = () => {

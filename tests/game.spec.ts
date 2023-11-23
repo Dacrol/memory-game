@@ -1,9 +1,15 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, Page } from '@playwright/test';
 
 type Card = {
   color: string;
   flipped: boolean;
   matched: boolean;
+};
+
+const setTestVar = async (page: Page) => {
+  page.evaluate(() => {
+    window['PLAYWRIGHT_TESTING'] = true;
+  });
 };
 
 test('basic test', async ({ page }) => {
@@ -22,6 +28,7 @@ test('should have 16 cards', async ({ page }) => {
 test('should be able to finish the game', async ({ page }) => {
   await page.goto('http://localhost:3000');
   await page.waitForSelector('.card');
+  await setTestVar(page);
 
   const clickCard = async (index: number) => {
     const cardSelector = `#card-${index + 1}`;
@@ -30,7 +37,7 @@ test('should be able to finish the game', async ({ page }) => {
       throw new Error(`Cannot find card with selector ${cardSelector}`);
     }
     await cardElement.click();
-    await page.waitForTimeout(1000);
+    await page.waitForTimeout(250);
   };
 
   const seenCards: Card[] = new Array(16).fill({

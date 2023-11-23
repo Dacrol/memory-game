@@ -5,8 +5,10 @@ import styled from 'styled-components';
 const StatsContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 10px;
   align-items: center;
+  p {
+    margin-bottom: 0;
+  }
 `;
 
 const Stats: React.FC = () => {
@@ -15,6 +17,7 @@ const Stats: React.FC = () => {
   return (
     <StatsContainer id="stats">
       <p>Number of attempts: {gameState.attempts}</p>
+      <p>Score: {gameState.matchedCards.length - gameState.attempts}</p>
       {gameState.cards.length === gameState.matchedCards.length && (
         <>
           <h2>You win!</h2>

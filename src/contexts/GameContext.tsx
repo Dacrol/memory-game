@@ -51,17 +51,16 @@ const GameProvider: React.FC<{
   const checkForMatches = (gameState: GameState) => {
     const flippedCards = gameState.cards.filter(card => card.isFlipped);
 
-    if (flippedCards.length === 2) {
-      if (flippedCards[0].color === flippedCards[1].color) {
-        flippedCards[0].isMatched = true;
-        flippedCards[1].isMatched = true;
-      }
-      flippedCards[0].isFlipped = false;
-      flippedCards[1].isFlipped = false;
+    if (flippedCards.length !== 2) {
+      return;
     }
-    const attempts = gameState.attempts + 1;
+    if (flippedCards[0].color === flippedCards[1].color) {
+      flippedCards[0].isMatched = true;
+      flippedCards[1].isMatched = true;
+    }
 
     const matchedCards = gameState.cards.filter(card => card.isMatched);
+    const attempts = gameState.attempts + 1;
 
     setGameState({
       ...gameState,
@@ -69,6 +68,22 @@ const GameProvider: React.FC<{
       matchedCards,
       attempts,
     });
+
+    const isTestEnv =
+      'PLAYWRIGHT_TESTING' in window && window['PLAYWRIGHT_TESTING'];
+    setTimeout(
+      () => {
+        flippedCards[0].isFlipped = false;
+        flippedCards[1].isFlipped = false;
+        setGameState({
+          ...gameState,
+          cards: [...gameState.cards],
+          matchedCards,
+          attempts,
+        });
+      },
+      isTestEnv ? 100 : 2000
+    );
   };
 
   const flipCard = (card: Card) => {
@@ -82,9 +97,7 @@ const GameProvider: React.FC<{
       cards: [...gameState.cards],
     };
     setGameState(newGameState);
-    setTimeout(() => {
-      checkForMatches(newGameState);
-    }, 250);
+    checkForMatches(newGameState);
   };
 
   const resetGame = () => {
