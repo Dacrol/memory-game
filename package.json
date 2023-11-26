@@ -9,7 +9,8 @@
     "build": "tsc && vite build --config vite.config.build.ts",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "test:install-deps": "playwright install --with-deps"
   },
   "dependencies": {
     "react": "^18.2.0",

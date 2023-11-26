@@ -1,30 +1,61 @@
-# React + TypeScript + Vite
+# Memory Game
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is a simple memory game built with React and TypeScript.
 
-Currently, two official plugins are available:
+## Prerequisites
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Before you begin, ensure you have met the following requirements:
 
-## Expanding the ESLint configuration
+- You have installed the latest version of [Node.js and npm](https://nodejs.org/en/download/)
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Running
 
-- Configure the top-level `parserOptions` property like this:
+To run the development server, follow these steps:
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+1. Install the dependencies:
+
+```bash
+npm install
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+2. Start the development server:
+
+```bash
+npm run start
+```
+
+The application will start running on [http://localhost:3000](http://localhost:3000).
+
+## Building
+
+To build the project, run the following command:
+
+```bash
+npm run build
+```
+
+The built files will be in the `dist` directory.
+
+## Testing
+
+This project uses Playwright for end-to-end testing.
+
+Ensure Playwright and its necessary dependencies have been set up with:
+
+```bash
+npm run test:install-deps
+```
+
+To run the tests, use the following command:
+
+```bash
+npm run test:e2e
+```
+
+## Linting
+
+To lint the project, use the following command:
+
+```bash
+npm run lint
+```
