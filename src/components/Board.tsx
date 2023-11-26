@@ -34,6 +34,9 @@ const Card = styled.div<{ color: string }>`
   &.matched {
     opacity: 0.1;
     transition: opacity 0.3s ease-in-out;
+    &:hover {
+      transform: rotateY(180deg) scale(1);
+    }
   }
 `;
 
@@ -54,7 +57,7 @@ const Board: React.FC = () => {
               card.isMatched ? ' matched' : ''
             }`}
             onClick={() => {
-              if (!card.isFlipped) {
+              if (!card.isFlipped && !card.isMatched) {
                 flipCard(card);
               }
             }}
