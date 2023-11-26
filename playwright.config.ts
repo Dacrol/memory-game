@@ -8,10 +8,9 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined,
   reporter: 'line',
   timeout: 90000,
-
   use: {
     trace: 'on-first-retry',
-    headless: true,
+    headless: !!process.env.CI,
     baseURL: 'http://localhost:3000',
   },
   projects: [
