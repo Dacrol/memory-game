@@ -74,7 +74,7 @@ test('should be able to finish the game', async ({ page }) => {
       }
     }
 
-    let randomIndex = Math.floor(Math.random() * 16);
+    const randomIndex = Math.floor(Math.random() * 16);
 
     const unknownCards = seenCards.filter(card => !card.color).length;
 
