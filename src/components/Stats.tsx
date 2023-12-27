@@ -1,15 +1,6 @@
 import React, { useContext } from 'react';
 import { GameContext } from '../contexts/GameContext';
-import styled from 'styled-components';
-
-const StatsContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  p {
-    margin-bottom: 0;
-  }
-`;
+import { StatsContainer } from './styled/components';
 
 const Stats: React.FC = () => {
   const { gameState, resetGame } = useContext(GameContext);
