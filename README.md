@@ -59,3 +59,7 @@ To lint the project, use the following command:
 ```bash
 npm run lint
 ```
+
+## Deploying
+
+This project deploys to GitHub Pages using GitHub Actions. To deploy the project, push to the `master` branch. Details of the deployment can be found in `.github/workflows`. Pipeline status can be viewed [here](https://github.com/Dacrol/memory-game/actions).
